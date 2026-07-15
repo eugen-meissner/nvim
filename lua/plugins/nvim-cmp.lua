@@ -2,6 +2,7 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
+			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
 			{
@@ -13,6 +14,9 @@ return {
 		config = function()
 			local cmp = require("cmp")
 			cmp.setup({
+				enabled = function()
+					return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
+				end,
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)

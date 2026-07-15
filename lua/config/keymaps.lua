@@ -138,12 +138,6 @@ keymap(
 keymap("n", "<leader>li", "<cmd>LspInfo<cr>", { noremap = true, silent = true, desc = "LSP: Show LSP information" })
 keymap(
 	"n",
-	"<leader>lI",
-	"<cmd>LspInstallInfo<cr>",
-	{ noremap = true, silent = true, desc = "LSP: Show LSP installation info" }
-)
-keymap(
-	"n",
 	"<leader>lj",
 	"<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>",
 	{ noremap = true, silent = true, desc = "LSP: Go to next diagnostic" }
