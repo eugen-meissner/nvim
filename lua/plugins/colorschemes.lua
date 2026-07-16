@@ -18,7 +18,7 @@ return {
 				-- contrast = "hard",
 				transparent_mode = true,
 			})
-			vim.cmd.colorscheme("gruvbox")
+			require("config.colorscheme").load()
 		end,
 	},
 	{ "rose-pine/neovim", name = "rose-pine" },

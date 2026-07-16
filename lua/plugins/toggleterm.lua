@@ -50,20 +50,6 @@ return {
 		-- Custom terminal functions
 		local Terminal = require("toggleterm.terminal").Terminal
 
-		-- Lazygit terminal
-		local lazygit = Terminal:new({
-			cmd = "lazygit",
-			hidden = true,
-			direction = "float",
-			float_opts = {
-				border = "curved",
-			},
-		})
-
-		function _G.toggle_lazygit()
-			lazygit:toggle()
-		end
-
 		-- Node terminal
 		local node = Terminal:new({ cmd = "node", hidden = true })
 		function _G.toggle_node()

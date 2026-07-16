@@ -5,6 +5,12 @@ return {
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
 			{
+				"leoluz/nvim-dap-go",
+				config = function()
+					require("dap-go").setup()
+				end,
+			},
+			{
 				"stevearc/overseer.nvim",
 				opts = {},
 			},
@@ -12,11 +18,15 @@ return {
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
-			-- Configure what terminal to use when external terminal is requested
-			dap.defaults.fallback.external_terminal = {
-				command = "/usr/bin/alacritty",
-				args = { "-e" },
-			}
+
+			local alacritty = vim.fn.exepath("alacritty")
+			if alacritty ~= "" then
+				dap.defaults.fallback.external_terminal = {
+					command = alacritty,
+					args = { "-e" },
+				}
+			end
+
 			-- LLDB
 			dap.adapters.lldb = {
 				type = "executable",
@@ -28,49 +38,6 @@ return {
 				type = "executable",
 				command = "netcoredbg",
 				args = { "--interpreter=vscode" },
-			}
-			-- Go
-			dap.adapters.delve = function(callback, config)
-				if config.mode == "remote" and config.request == "attach" then
-					callback({
-						type = "server",
-						host = config.host or "127.0.0.1",
-						port = config.port or "38697",
-					})
-				else
-					callback({
-						type = "server",
-						port = "${port}",
-						executable = {
-							command = "dlv",
-							args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
-							detached = vim.fn.has("win32") == 0,
-						},
-					})
-				end
-			end
-			dap.configurations.go = {
-				{
-					type = "delve",
-					name = "Debug",
-					request = "launch",
-					program = "${file}",
-				},
-				{
-					type = "delve",
-					name = "Debug test", -- configuration for debugging test files
-					request = "launch",
-					mode = "test",
-					program = "${file}",
-				},
-				-- works with go.mod packages and sub packages
-				{
-					type = "delve",
-					name = "Debug test (go.mod)",
-					request = "launch",
-					mode = "test",
-					program = "./${relativeFileDirname}",
-				},
 			}
 			-- Customize the dap ui
 			dapui.setup({
@@ -180,7 +147,7 @@ return {
 			})
 
 			local function show_build_progress()
-				vim.notify("🔨 Starting debug build...", vim.log.levels.INFO, { title = "Debug Build" })
+				vim.notify("Starting debug build...", vim.log.levels.INFO, { title = "Debug Build" })
 				vim.cmd("OverseerOpen!")
 			end
 

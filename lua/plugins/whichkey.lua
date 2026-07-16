@@ -42,35 +42,31 @@ return {
 				timeout = 10,
 				disable = {
 					buftypes = {},
-					filetypes = { "TelescopePrompt" },
+					filetypes = {},
 				},
 			})
 
 			-- Normal mode mappings
 			wk.add({
-				{ "<leader>d", "<cmd>DogeGenerate<cr>", desc = "Generate Docs" },
-
-				{ "<leader>F", "<cmd>Telescope live_grep theme=ivy<cr>", desc = "Find Text" },
-				{ "<leader>f", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
 				{ "<leader>n", "<cmd>enew<cr>", desc = "New File" },
 
 				{ "<leader>h", "<cmd>nohlsearch<CR>", desc = "No Highlight" },
-				{ "<leader>k", "<cmd>TransparentToggle<CR>", desc = "Toggle Transparency" },
-				{ "<leader>l", '<cmd>exec &bg=="light"? "set bg=dark" : "set bg=light"<CR>', desc = "Toggle Theme" },
-
-				{ "<leader>p", "<cmd>lua require('telescope').extensions.projects.projects()<cr>", desc = "Projects" },
 
 				{ "<leader>g", "<cmd>Neogit<cr>", desc = "Status" },
 
-				{ "<leader>b", "<cmd>lua require('telescope.builtin').buffers()<cr>", desc = "Switch Buffer" },
-				{ "<leader>x", "<cmd>bdelete!<cr>", desc = "Delete Buffer" },
+				{
+					"<leader>x",
+					function()
+						Snacks.bufdelete()
+					end,
+					desc = "Delete Buffer",
+				},
 				{ "<leader>o", "<cmd>%bd|e#<cr>", desc = "Close Other Buffers" },
 
 				{ "<leader>c", group = "code" },
-				{ "<leader>ca", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
+				{ "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action" },
 
-				{ "<leader>s", group = "settings" },
-				{ "<leader>sc", "<cmd>Telescope colorscheme enable_preview=true<cr>", desc = "Select Colorscheme" },
+				{ "<leader>s", group = "search" },
 
 				{ "<leader>r", group = "test" },
 				{ "<leader>rr", "<cmd>lua require('neotest').run.run()<CR>", desc = "Run nearest test" },
@@ -87,6 +83,7 @@ return {
 				{ "<leader>rs", "<cmd>lua require('neotest').summary.toggle()<CR>", desc = "Test Summary" },
 				{ "<leader>ro", "<cmd>lua require('neotest').output_panel.toggle()<CR>", desc = "Test Output" },
 
+				{ "<leader>u", group = "ui" },
 				{ "<leader>w", group = "window" },
 				{ "<leader>wD", "<C-w>o", desc = "Close Others" },
 				{ "<leader>wd", "<C-w>c", desc = "Close Window" },
@@ -99,8 +96,6 @@ return {
 	},
 	{
 		"echasnovski/mini.icons",
-		config = function()
-			require("mini.icons").setup()
-		end,
+		opts = {},
 	},
 }
