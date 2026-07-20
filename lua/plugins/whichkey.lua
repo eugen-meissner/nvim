@@ -72,7 +72,9 @@ return {
 				{ "<leader>rr", "<cmd>lua require('neotest').run.run()<CR>", desc = "Run nearest test" },
 				{
 					"<leader>rd",
-					"<cmd>lua require('neotest').run.run({strategy = 'dap'})<CR>",
+					function()
+						require("utils.dotnet_debug").debug_nearest()
+					end,
 					desc = "Debug nearest test",
 				},
 				{

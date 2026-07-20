@@ -6,7 +6,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			"Issafalcon/neotest-dotnet",
+			"citizenharris/neotest-dotnet",
 			"nvim-neotest/neotest-go",
 		},
 		config = function()
@@ -17,7 +17,7 @@ return {
 						dap = {
 							adapter_name = "coreclr",
 						},
-						discovery_root = "solution",
+						discovery_root = "project",
 					}),
 				},
 			})
