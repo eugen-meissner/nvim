@@ -21,6 +21,19 @@ return {
 			require("config.colorscheme").load()
 		end,
 	},
+	{
+		"rebelot/kanagawa.nvim",
+		priority = 1000,
+		config = function()
+			require("kanagawa").setup({
+				transparent = true,
+			})
+		end,
+	},
+	{
+		"nyoom-engineering/oxocarbon.nvim",
+		priority = 1000,
+	},
 	{ "rose-pine/neovim", name = "rose-pine" },
 	{
 		"scottmckendry/cyberdream.nvim",
