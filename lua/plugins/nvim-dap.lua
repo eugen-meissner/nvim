@@ -39,6 +39,11 @@ return {
 				command = "netcoredbg",
 				args = { "--interpreter=vscode" },
 			}
+			dap.adapters.netcoredbg = {
+				type = "executable",
+				command = "netcoredbg",
+				args = { "--interpreter=vscode" },
+			}
 			-- Customize the dap ui
 			dapui.setup({
 				icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
@@ -70,7 +75,6 @@ return {
 					{
 						elements = {
 							"repl",
-							"console",
 						},
 						size = 0.25, -- 25% of total lines
 						position = "bottom",
@@ -91,9 +95,25 @@ return {
 				},
 			})
 			-- Register listeners
-			dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-			dap.listeners.before.event_exited["dapui_config"] = dapui.close
+			local notified_exit = false
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				notified_exit = false
+				dapui.open()
+			end
+			local function notify_exit(_, body)
+				if notified_exit or not body or body.exitCode == nil then
+					return
+				end
+				notified_exit = true
+				local level = body.exitCode == 0 and vim.log.levels.INFO or vim.log.levels.ERROR
+				vim.notify(("Debug session exited with code %d"):format(body.exitCode), level, { title = "DAP" })
+			end
+			local function close_session(_, body)
+				dapui.close()
+				notify_exit(nil, body or { exitCode = nil })
+			end
+			dap.listeners.before.event_exited["dapui_config"] = notify_exit
+			dap.listeners.before.event_terminated["dapui_config"] = close_session
 			local overseer = require("overseer")
 			overseer.setup({
 				task_list = {
@@ -147,7 +167,6 @@ return {
 			})
 
 			local function show_build_progress()
-				vim.notify("Starting debug build...", vim.log.levels.INFO, { title = "Debug Build" })
 				vim.cmd("OverseerOpen!")
 			end
 

@@ -3,13 +3,19 @@ return {
 	event = "VeryLazy",
 	version = false, -- Never set this value to "*"! Never!
 	opts = {
-		provider = "claude",
-		anthropic = {
-			endpoint = "https://api.anthropic.com/v1",
-			model = "claude-opus-4-5-20251101", -- Other options: "claude-3-sonnet-20240229", "claude-3-haiku-20240307"
-			timeout = 30000, -- Timeout in milliseconds (30 seconds)
-			temperature = 0, -- Deterministic output
-			max_completion_tokens = 4096, -- Max tokens to generate (adjust if needed, Anthropic caps at 4096 for some models)
+		provider = "deepseek",
+		providers = {
+			deepseek = {
+				__inherited_from = "openai",
+				api_key_name = "DEEPSEEK_API_KEY",
+				endpoint = "https://api.deepseek.com",
+				model = "deepseek-v4-flash",
+				context_window = 1000000,
+				extra_request_body = {
+					thinking = { type = "enabled" },
+					max_tokens = 16384,
+				},
+			},
 		},
 		selector = {
 			provider = "snacks",

@@ -32,4 +32,6 @@ require("lazy").setup({
 	install = { colorscheme = { "retrobox" } },
 	-- automatically check for plugin updates
 	checker = { enabled = false },
+	-- no rockspec/luarocks support needed for any of these plugins
+	rocks = { enabled = false },
 })

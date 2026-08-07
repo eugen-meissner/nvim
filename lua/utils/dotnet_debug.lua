@@ -73,7 +73,6 @@ function M.debug_nearest()
 			return
 		end
 
-		notify("Building " .. vim.fs.basename(project_file) .. "…")
 		local build_code, build_stdout, build_stderr =
 			run_process("dotnet", { "build", project_file, "--nologo" }, project_root)
 		if build_code ~= 0 then

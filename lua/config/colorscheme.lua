@@ -12,6 +12,7 @@ M.names = {
 	"kanagawa-lotus",
 	"kanagawa-wave",
 	"miasma",
+	"osaka-jade",
 	"oxocarbon",
 	"rose-pine",
 	"rose-pine-dawn",

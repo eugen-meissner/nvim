@@ -2,7 +2,10 @@ local colorscheme = require("config.colorscheme")
 
 local picker_exclude = {
 	"**/.cache/**",
+	"**/.direnv/**",
+	"**/.git/**",
 	"**/.gradle/**",
+	"**/.local/**",
 	"**/.mypy_cache/**",
 	"**/.next/**",
 	"**/.nuxt/**",
@@ -284,6 +287,7 @@ return {
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "VeryLazy",
 			callback = function()
+				require("snacks.picker")
 				Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 				Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
 				Snacks.toggle.option("relativenumber", { name = "Relative number" }):map("<leader>uL")
